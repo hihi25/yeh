@@ -6,90 +6,63 @@
 <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="css/index.css">
+
 </head>
 
 <body>
-<header>
-<div class="logo-place"><img src="assets/logo.png"></div>
-<div class="search-place">
-    <input type="text" id="idbusqueda" placeholder="Encuentra aquí todo lo que necesitas..">
-    <button class="btn-main btn-search"><i class=></i class=" fa fa-search" aria-hidden="true"></i></button>
-</div>
-<div class="options-place">
-<div class="item-option" title="Registrate"><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
-<div class="item-option" title="Ingresar"><i class="fa fa-sign-in" aria-hidden="true"></i></div>
-<div class="item-option" title="Mis Compras"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
-</div>
+<?php
+	include ('header.php');
+?>
 
-</header>
-<div class="main-content">
-    <div class="content-page">
-<section>
-<div class="part1">
-<img src="img/lamparas-turcas-mosaica/lamparamariposa.jpg"    
-</div>
-<div class="part2">
- <h2>Nombre principal</h2>
- <h1>S/.35<span>99</span><h1>
-<h3>Descripción del producto</h3>   
-</div>      
-</section>
-<div class="title-section">Productos destacados</div>
-<div class="products-list" id="space-list">
-    <div class="product-box">
-        <a href=""
-         <div class="product">
-          <img src="img/lamparas-turcas-mosaica/lamparamariposa.jpg">   
-         <div class="detail-title">Lampara Mariposa </div>
-         <div class="detail-description"> </div>
-         <div class="detail-price">$59.990</span> </div>
+<div class="container" style="padding:20px">
+    <div class="row">
+        <div class="col-md-8" style="overflow:hidden">
+            <div style="width:100%;height:500px;background-color:#c2c2c2;display:flex;justify-content:center">
+                <img id="img_producto_principal" src="" style="height:100%;"></img>
+            </div>    
         </div>   
-        </a>
-    </div>
+        <div class="col-md-4">
+            <div class="row" style="padding:3%">
+                <h3 id="titulo_producto"></h3>
+            </div>
+            <div class="row" style="padding:3%">
+                <div>Precio del Producto: <span id="precio_producto"></span> </div>
+            </div>
+            <div class="btn btn-primary">Agregar al carrito</div>  
+        </div>   
+    </div> 
+     
 </div>
-</div>
-</div>
-</div>
-<script type="text/javascript">
-$(document).ready(function(){
-$.ajax({
-	url:'servicios/producto/get_all_products.php',
-	type:'POST',
-	data:{},
-	success:function(data){
-             console.log(data);
-    let html='';
-	for(var i=0; i < data.datos.length;i++){
-		html+='<div class="product-box"'>
-	<a href="producto.php">
-		<div class="product>
-		<img src="index>/+data.datos[i].rutimapro"			
-		<div class="detail-title">+data.datos[i].nompro</div>
-		<div class="detail-description">+data.datos[i].despro</div>
-		<div class="detail-price">+formato_precio(data.datos[i].prepro)</div>
-			</div>
-			</a>
-			
+<script>
+var id_prod = <?php echo  json_encode($_GET['id']); ?>;
+console.log()
+cargarProducto(id_prod+'');
 
-	}
-	document.getElementById("space-list").innerHTML=html;
-			},
-	error:function(err){
-	console.error(err);}
+
+function cargarProducto(cod_pro){
+    $.ajax({
+    url:'servicios/productos/get_product.php',
+    type:'POST',
+    data:{
+        cod_pro:1
+    },
+    success:function(data){
+        console.log(JSON.stringify(data));
+        /*var rsp_json = JSON.parse(data.substr(9));
+        $.each(rsp_json, function(i, item) {
+            $("#img_producto_principal").attr("src",item['rutimapro']);
+            $('#titulo_producto').html(item['nompro']);
+            $('#precio_producto').html(item['prepro']);
+        });*/
+        
+    },
+    error:function(err){
+        console.error(err)
+    }
+	
 });
-});
-function formato_precio(valor){
-	let svalor=valor.toString();
-	let array=svalor.split(".");
-	return "S/. "+array[0]+".<span>+array[1]</span>";
 }
 </script>
 
 </body>
-
-
-
-
-
-
 </html>
